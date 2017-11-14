@@ -149,6 +149,14 @@
             "schema": {
               "$ref": "#/definitions/User"
             }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User id to add",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
           }
         ],
         "responses": {
@@ -174,12 +182,6 @@
           "application/json"
         ],
         "parameters": [
-          {
-            "name": "api_key",
-            "in": "header",
-            "required": false,
-            "type": "string"
-          },
           {
             "name": "userId",
             "in": "path",
@@ -224,7 +226,7 @@
           "200": {
             "description": "successful operation",
             "schema": {
-              "$ref": "#/definitions/ArrayOfTasks"
+              "$ref": "#/definitions/Task"
             }
           },
           "400": {
@@ -257,6 +259,14 @@
             "schema": {
               "$ref": "#/definitions/Task"
             }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "User id to delete",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
           }
         ],
         "responses": {
@@ -332,6 +342,22 @@
             "schema": {
               "$ref": "#/definitions/Task"
             }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user/owner to get task from",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "taskId",
+            "in": "path",
+            "description": "ID of task to return",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
           }
         ],
         "responses": {
@@ -358,10 +384,12 @@
         ],
         "parameters": [
           {
-            "name": "api_key",
-            "in": "header",
-            "required": false,
-            "type": "string"
+            "name": "userId",
+            "in": "path",
+            "description": "ID of user/owner to get task from",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
           },
           {
             "name": "taskId",
@@ -438,48 +466,6 @@
           "type": "integer",
           "format": "int64",
           "description": "the id for the user (that owns the task)"
-        }
-      }
-    },
-    "ArrayOfTasks": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "taskId": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "title": {
-            "type": "string"
-          },
-          "creationDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "dueDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "completionDate": {
-            "type": "string",
-            "format": "date"
-          },
-          "status": {
-            "type": "string",
-            "description": "task status",
-            "enum": [
-              "new",
-              "in-progress",
-              "blocked",
-              "completed"
-            ]
-          },
-          "owner": {
-            "type": "integer",
-            "format": "int64",
-            "description": "the id for the user (that owns the task)"
-          }
         }
       }
     }
