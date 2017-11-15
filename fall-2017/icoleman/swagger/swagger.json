@@ -40,13 +40,22 @@
     "/users": {
       "get": {
         "tags": [
-          "user"
+          "users"
         ],
         "summary": "Get user",
         "description": "Returns a single user",
         "operationId": "getUser",
         "produces": [
           "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name of user to search",
+            "required": false,
+            "type": "string"
+          }
         ],
         "responses": {
           "200": {
@@ -216,10 +225,17 @@
           {
             "name": "userId",
             "in": "path",
-            "description": "ID of user to add task to",
+            "description": "ID of user to get list of tasks from",
             "required": true,
             "type": "integer",
             "format": "int64"
+          },
+          {
+            "name": "title",
+            "in": "query",
+            "description": "title of task to search",
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
