@@ -31,24 +31,18 @@ paths:
     get:
       tags:
         - users
-      summary: Get user
-      description: Returns a single user
+      summary: Get list of users
+      description: Returns list of users
       operationId: getUser
       produces:
         - application/json
-      parameters:
-        - name: name
-          in: query
-          description: name of user to search
-          required: false
-          type: string
       responses:
         '200':
-          description: successful operation
+          description: list of users
           schema:
-            $ref: '#/definitions/User'
-        '404':
-          description: User not found
+            type: array
+            items:
+              $ref: '#/definitions/User'
     post:
       tags:
         - user
@@ -61,12 +55,16 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: body
+          name: user
           description: User object that needs to be added
           required: true
           schema:
             $ref: '#/definitions/User'
       responses:
+        '200':
+          description: The new user
+          schema:
+            $ref: '#/definitions/User'
         '405':
           description: Invalid input
   '/users/{userId}':
@@ -87,11 +85,9 @@ paths:
           format: int64
       responses:
         '200':
-          description: successful operation
+          description: The requested user
           schema:
             $ref: '#/definitions/User'
-        '400':
-          description: Invalid ID supplied
         '404':
           description: User not found
     put:
@@ -102,11 +98,9 @@ paths:
       operationId: updateUser
       consumes:
         - application/json
-      produces:
-        - application/json
       parameters:
         - in: body
-          name: body
+          name: user
           description: User object that needs to be updated
           required: true
           schema:
@@ -118,8 +112,8 @@ paths:
           type: integer
           format: int64
       responses:
-        '400':
-          description: Invalid ID supplied
+        '200':
+          description: User was successfully updated
         '404':
           description: User not found
         '405':
@@ -130,8 +124,6 @@ paths:
       summary: Deletes a user
       description: ''
       operationId: deleteUser
-      produces:
-        - application/json
       parameters:
         - name: userId
           in: path
@@ -140,8 +132,10 @@ paths:
           type: integer
           format: int64
       responses:
-        '400':
-          description: Invalid ID supplied
+        '200':
+          description: User was successfully deleted
+          schema:
+            $ref: '#/definitions/User'
         '404':
           description: User not found
   '/users/{userId}/tasks':
@@ -160,18 +154,13 @@ paths:
           required: true
           type: integer
           format: int64
-        - name: title
-          in: query
-          description: title of task to search
-          required: false
-          type: string
       responses:
         '200':
-          description: successful operation
+          description: list of tasks
           schema:
-            $ref: '#/definitions/Task'
-        '400':
-          description: Invalid ID supplied
+            type: array
+            items:
+              $ref: '#/definitions/Task'
         '404':
           description: Users not found
     post:
@@ -186,7 +175,7 @@ paths:
         - application/json
       parameters:
         - in: body
-          name: body
+          name: task
           description: Task object that needs to be added
           required: true
           schema:
@@ -198,6 +187,12 @@ paths:
           type: integer
           format: int64
       responses:
+        '200':
+          description: The new task
+          schema:
+            $ref: '#/definitions/Task'
+        '404':
+          description: User not found
         '405':
           description: Invalid input
   '/users/{userId}/tasks/{taskId}':
@@ -224,11 +219,9 @@ paths:
           format: int64
       responses:
         '200':
-          description: successful operation
+          description: The requested task
           schema:
             $ref: '#/definitions/Task'
-        '400':
-          description: Invalid ID supplied
         '404':
           description: Task not found
     put:
@@ -239,11 +232,9 @@ paths:
       operationId: updateTask
       consumes:
         - application/json
-      produces:
-        - application/json
       parameters:
         - in: body
-          name: body
+          name: task
           description: Task object that needs to be updated
           required: true
           schema:
@@ -261,8 +252,8 @@ paths:
           type: integer
           format: int64
       responses:
-        '400':
-          description: Invalid ID supplied
+        '200':
+          description: Task was successfully updated
         '404':
           description: Task not found
         '405':
@@ -273,8 +264,6 @@ paths:
       summary: Deletes a task
       description: ''
       operationId: deleteTask
-      produces:
-        - application/json
       parameters:
         - name: userId
           in: path
@@ -289,8 +278,8 @@ paths:
           type: integer
           format: int64
       responses:
-        '400':
-          description: Invalid ID supplied
+        '200':
+          description: Task was successfully deleted
         '404':
           description: Task not found
 definitions:
@@ -300,7 +289,9 @@ definitions:
       userId:
         type: integer
         format: int64
-      name:
+      firstName:
+        type: string
+      lastName:
         type: string
       tasks:
         type: array
@@ -334,7 +325,7 @@ definitions:
       owner:
         type: integer
         format: int64
-        description: the id for the user (that owns the task)
+        description: the id for the user (who owns the task)
 externalDocs:
   description: Find out more about Task Management API
   url: 'https://github.com/imcoleman/nsc-ad420-clouddev'
